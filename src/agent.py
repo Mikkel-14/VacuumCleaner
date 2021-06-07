@@ -38,6 +38,7 @@ class VacuumCleaner:
 
     def encender(self):
         objetivo = False
+        pasos = 0
         while not objetivo:
             self.sensar()
             if self.listaValdosas[self.ubicacion].estado ==1:
@@ -50,6 +51,7 @@ class VacuumCleaner:
                 elif self.listaValdosas[self.ubicacion].nombre == 'b':
                      print("\n Accion: nos movemos a la izquierda")
                      self.izquierda()
+            pasos +=1 
             sum = 0
             for v in self.listaValdosas:
                 sum += v.estado
@@ -57,3 +59,4 @@ class VacuumCleaner:
         for v in self.listaValdosas:
             print(v)
             print("\n")
+        print("\n Numero total de pasos: {:}".format(pasos))
