@@ -42,14 +42,14 @@ class VacuumCleaner:
         while not objetivo:
             self.sensar()
             if self.listaValdosas[self.ubicacion].estado ==1:
-                print("\n Accion: procedemos a limpiar la valdosa {:}".format(self.listaValdosas[self.ubicacion].nombre))
+                print("==>Acción: Limpiar la valdosa {:} \n".format(self.listaValdosas[self.ubicacion].nombre))
                 self.limpiar(self.listaValdosas[self.ubicacion])
             else:
                 if self.listaValdosas[self.ubicacion].nombre == 'a':
-                    print("\n Accion: nos movemos a la derecha")
+                    print("==>Accion: nos movemos a la derecha\n")
                     self.derecha()
                 elif self.listaValdosas[self.ubicacion].nombre == 'b':
-                     print("\n Accion: nos movemos a la izquierda")
+                     print("==>Accion: nos movemos a la izquierda\n")
                      self.izquierda()
             pasos +=1 
             sum = 0
@@ -59,4 +59,5 @@ class VacuumCleaner:
         for v in self.listaValdosas:
             print(v)
             print("\n")
-        print("\n Numero total de pasos: {:}".format(pasos))
+        print("=========================================\n")
+        print("Numero total de pasos: {:}".format(pasos))
