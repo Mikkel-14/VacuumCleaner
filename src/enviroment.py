@@ -11,6 +11,9 @@ class Piso:
         self.observed = obs
     
     def update(self):
+        """
+        Actualiza el estado del piso en base a lo que haya modificado el agente
+        """
         result = self.observed.getResultado()
         if result[0] == self.nombre:
             self.estado = result[1]
