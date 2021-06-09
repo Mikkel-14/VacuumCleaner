@@ -1,5 +1,6 @@
 from enviroment import Piso
-
+#vamos a elaborar un agente reflejo simple, sin tablas de busqueda
+#sino con reglas condicion-accion
 class VacuumCleaner:
     def __init__(self, listaValdosas,ubicacion) -> None:
         self.ubicacion = ubicacion
@@ -42,16 +43,16 @@ class VacuumCleaner:
             valdosa.update()
 
     def encender(self):
-        objetivo = False
-        pasos = 0
+        objetivo = False #el objetivo es que todo el ambiente este limpio
+        pasos = 0 #los pasos nos indican el numero de iteraciones
         while not objetivo:
             print('--->Estado presente, (posicion de aspiradora y estado de valdosa): ({:},{:})\n'.format(self.ubicacion,self.listaValdosas[self.ubicacion].estado ))
-            self.sensar()
-            if self.listaValdosas[self.ubicacion].estado ==1:
+            self.sensar() #el senso del ambiente es una condicion necesaria porque un ambiente parcialmente observable limitaría incluso más la inteligencia del agente
+            if self.listaValdosas[self.ubicacion].estado ==1: #REGLA 1 := Si mi baldosa actual esta sucia, limpio, caso contrario, me muevo
                 print("==>Acción: Limpiar la valdosa {:} \n".format(self.listaValdosas[self.ubicacion].nombre))
                 self.limpiar(self.listaValdosas[self.ubicacion])
             else:
-                for z in self.entorno:
+                for z in self.entorno: #ahora voy a buscar una baldosa sucia en en entorno
                     if z.estado ==1:
                         #con el offset comparo por los nombres de las baldosas el orden
                         # (si es mayor o menor ej a>b?) para saber a donde moverse
@@ -65,11 +66,11 @@ class VacuumCleaner:
                         break
             pasos +=1 
             sum = 0
-            for v in self.listaValdosas:
+            for v in self.listaValdosas: #si la sumatoria es 0, implica que todo el entorno esta limpio
                 sum += v.estado
             objetivo = sum == 0
-        for v in self.listaValdosas:
+        for v in self.listaValdosas: #imprimo el estado final de las valdosas
             print(v)
             print("\n")
         print("=========================================\n")
-        print("Numero total de pasos: {:}".format(pasos))
+        print("Numero total de pasos: {:}".format(pasos)) 
