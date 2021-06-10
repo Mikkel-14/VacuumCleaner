@@ -46,7 +46,7 @@ class VacuumCleaner:
         objetivo = False #el objetivo es que todo el ambiente este limpio
         pasos = 0 #los pasos nos indican el numero de iteraciones
         while not objetivo:
-            print('--->Estado presente, (posicion de aspiradora y estado de valdosa): ({:},{:})\n'.format(self.ubicacion,self.listaValdosas[self.ubicacion].estado ))
+            print('--->Estado presente, (posicion de aspiradora y estado de valdosa): ({:},{:})\n'.format(self.listaValdosas[self.ubicacion].nombre,self.listaValdosas[self.ubicacion].estado ))
             self.sensar() #el senso del ambiente es una condicion necesaria porque un ambiente parcialmente observable limitaría incluso más la inteligencia del agente
             if self.listaValdosas[self.ubicacion].estado ==1: #REGLA 1 := Si mi baldosa actual esta sucia, limpio, caso contrario, me muevo
                 print("==>Acción: Limpiar la valdosa {:} \n".format(self.listaValdosas[self.ubicacion].nombre))
