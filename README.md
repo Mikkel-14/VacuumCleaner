@@ -10,3 +10,6 @@ Instrucciones
 1. Ingrese la ubicación A ó B correspondientes a los dos cuartos adyacentes.
 2. Ingrese el estado 0 ó 1, donde 0 significa limpio y 1 significa sucio.
 3. El vacuum cleaner sensa el estado del otro cuarto antes de realizar una acción, también conocido como sensar el ambiente. 
+
+# Búsquedas informadas y no informadas
+Se incluyen también scripts que contienen la implementación de algoritmos de búsqueda informada y no informada con ejemplos de aplicacion
