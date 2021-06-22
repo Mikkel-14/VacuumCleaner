@@ -9,7 +9,19 @@ class Node:
         return self.value
     def __str__(self) -> str:
         return self.value
-
+    def __key(self):
+        if isinstance(self.value,tuple):
+            a,b = self.value
+            return (str(a),b)
+        return self.value
+    def __hash__(self) -> int:
+        return hash(self.__key())
+    def __eq__(self, o: object) -> bool:
+        if(isinstance(o,Node)):
+            return self.__key() == o.__key()
+        return False
+    def __lt__(self,other):
+        return hash(self.__key()) < hash(other.__key())
 class Edge:
     def __init__(self, nodoA, nodoB, peso=1) -> None:
         """
@@ -42,7 +54,7 @@ class Grafo:
         if nodo not in self.adjacencyMap:
             self.adjacencyMap[nodo] = list()
         else:
-            print("El nodo ya se encuentra en el grafo\n")
+            print("El nodo ya se encuentra en el grafo")
     
     def addEdge(self,edge):
         u,v = edge.getIncidentNodes()
@@ -50,6 +62,8 @@ class Grafo:
         if (u in self.adjacencyMap) and (v in self.adjacencyMap):
             self.adjacencyMap[u].append((v,peso))
             self.adjacencyMap[v].append((u,peso))
+        else:
+            print('No se agrego el edge')
 
     def getChildren(self,node):
         hijos = list()
