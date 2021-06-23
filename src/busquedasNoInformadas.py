@@ -1,4 +1,7 @@
 #empezamos creando las estructuras base para nuestro grafo
+from typing import ContextManager
+
+
 class Node:
     def __init__(self, value) -> None:
         """
@@ -105,13 +108,21 @@ def limitedDFS(grafo, nodoInicial, nodoFinal, limiteD):
     nodosApilados.add(u)
     trazadoTrayectoria = 'Trayectoria DFS, con limite d={:}: '.format(limiteD)
     profundidad  = 0
-    while profundidad <= limiteD:
+    while (profundidad <= limiteD) and (len(pila)!=0):
+        anterior = u
         #sacamos de la pila al nodo
         u = pila.pop()
-        profundidad += 1
          #el nodo pasa a ser parte de la trayectoria
         trazadoTrayectoria += ' -> ' +u.getValue()
         print(trazadoTrayectoria+'\n')
+        if u.getValue() == nodoFinal.getValue():
+            break
+        if u in list(map(lambda tupla: tupla[0],grafo.getChildren(anterior))):
+            profundidad += 1
+        else:
+            profundidad -= 1
+        if profundidad == limiteD:
+            continue
         #adicionamos los hijos a la pila
         hijos = list(map(lambda tupla: tupla[0],grafo.getChildren(u)))
         for v in hijos:
@@ -122,7 +133,7 @@ def limitedDFS(grafo, nodoInicial, nodoFinal, limiteD):
     return u.getValue() == nodoFinal.getValue()
 
 def DFSIterativo(grafo, n0,nf):
-    incremento = 0
+    incremento = 1
     while True:
         if limitedDFS(grafo,n0,nf,incremento):
             break
@@ -175,7 +186,7 @@ def main():
     g.addEdge(Edge(g.getNode('Cancun'),g.getNode('Playa del Carmen')))
     g.addEdge(Edge(g.getNode('Chetumal'),g.getNode('Playa del Carmen')))
     #mandamos a correr el BFS
-    #BFS(g,g.getNode('Salina Cruz'),g.getNode('Reynosa'))
+    BFS(g,g.getNode('Salina Cruz'),g.getNode('Reynosa'))
     #print(limitedDFS(g,g.getNode('Salina Cruz'),g.getNode('Reynosa'),5))
-    DFSIterativo(g,g.getNode('Salina Cruz'),g.getNode('Reynosa'))
+    #DFSIterativo(g,g.getNode('Salina Cruz'),g.getNode('Reynosa'))
 main()
