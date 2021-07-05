@@ -1,7 +1,8 @@
 """
 Tic Tac Toe Player
 """
-
+from ADT import Edge, Grafo, Node
+from copy import deepcopy
 import math
 
 X = "X"
@@ -123,5 +124,67 @@ def minimax(state):
     """
     Returns the optimal action for the current player on the board.
     """
-    raise NotImplementedError
+    g = Grafo()
+    if g.isEmpty():
+        #si el grafo esta vacio lo construimos
+        nodo = Node(state)
+        g.addNode(nodo)
+        pila = list()
+        pila.append(nodo)
+        while not pila == []:
+            #exploramos el nodo
+            n = pila.pop()
+            if not terminal(n.getValue()):
+                acciones = actions(n.getValue())
+                for action in acciones:
+                    estadoResultado = result(deepcopy(n.getValue()),action)
+                    nodoResultante = Node(estadoResultado)
+                    arista = Edge(n, nodoResultante)
+                    g.addNode(nodoResultante)
+                    g.addEdge(arista)
+                    pila.append(nodoResultante)
+            else:
+                n.setUtil(utility(n.getValue()))
+        pilaReversa = g.getLeaves()
+        while pilaReversa != []:
+            #exploramos los padres del nodo
+            hijo = pilaReversa.pop()
+            padres = hijo.getParent()
+            if padres != []:
+                for nodoPadre in padres:
+                    next= player(nodoPadre.getValue())
+                    utilidad = hijo.getUtil()
+                    if next == X:
+                        #implica que el padre jugo O, y hay que maximizar
+                        if nodoPadre.hasUtil():
+                            utilidadPadre = nodoPadre.getUtil()
+                            if utilidad > utilidadPadre:
+                                nodoPadre.setUtil(utilidad)
+                        else:
+                            nodoPadre.setUtil(utilidad)
+                    else:
+                        #significa que el padre jugo X, y hay que minimizar
+                        if nodoPadre.hasUtil():
+                            utilidadPadre = nodoPadre.getUtil()
+                            if utilidad < utilidadPadre:
+                                nodoPadre.setUtil(utilidad)
+                        else:
+                            nodoPadre.setUtil(utilidad)        
+                    pilaReversa.append(nodoPadre)  
+    nodoPresente = g.getNode(state)
+    valor = nodoPresente.getUtil()
+    act = actions(nodoPresente.getValue())
+    for accion in act:
+        resultado = result(deepcopy(nodoPresente.getValue()),accion)
+        nodoResultante = g.getNode(resultado)
+        if nodoResultante.getUtil() == valor:
+            return accion
+    
+        
+    
+    
+    
 
+#inicial = [[EMPTY,X,O],[O,X,EMPTY],[X,EMPTY,O]]
+#print(minimax(inicial))
+#print(Grafo().getNode(inicial).hasUtil())
