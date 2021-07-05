@@ -131,7 +131,7 @@ def minimax(state):
         g.addNode(nodo)
         pila = list()
         pila.append(nodo)
-        while not pila == []:
+        while  pila != []:
             #exploramos el nodo
             n = pila.pop()
             if not terminal(n.getValue()):
@@ -142,35 +142,35 @@ def minimax(state):
                     arista = Edge(n, nodoResultante)
                     g.addNode(nodoResultante)
                     g.addEdge(arista)
-                    pila.append(nodoResultante)
+                    pila.insert(0,nodoResultante)
             else:
                 n.setUtil(utility(n.getValue()))
-        pilaReversa = g.getLeaves()
-        while pilaReversa != []:
-            #exploramos los padres del nodo
-            hijo = pilaReversa.pop()
-            padres = hijo.getParent()
-            if padres != []:
-                for nodoPadre in padres:
-                    next= player(nodoPadre.getValue())
-                    utilidad = hijo.getUtil()
-                    if next == X:
-                        #implica que el padre jugo O, y hay que maximizar
-                        if nodoPadre.hasUtil():
-                            utilidadPadre = nodoPadre.getUtil()
-                            if utilidad > utilidadPadre:
-                                nodoPadre.setUtil(utilidad)
-                        else:
-                            nodoPadre.setUtil(utilidad)
-                    else:
-                        #significa que el padre jugo X, y hay que minimizar
-                        if nodoPadre.hasUtil():
-                            utilidadPadre = nodoPadre.getUtil()
-                            if utilidad < utilidadPadre:
-                                nodoPadre.setUtil(utilidad)
-                        else:
-                            nodoPadre.setUtil(utilidad)        
-                    pilaReversa.append(nodoPadre)  
+                pilaReversa = list()
+                pilaReversa.append(n)
+                while pilaReversa != []:
+                    hijo = pilaReversa.pop()
+                    padres = hijo.getParent()
+                    if padres != []:
+                        for nodoPadre in padres:
+                            next= player(nodoPadre.getValue())
+                            utilidad = hijo.getUtil()
+                            if next == X:
+                                #implica que el padre jugo O, y hay que maximizar
+                                if nodoPadre.hasUtil():
+                                    utilidadPadre = nodoPadre.getUtil()
+                                    if utilidad > utilidadPadre:
+                                        nodoPadre.setUtil(utilidad)
+                                else:
+                                    nodoPadre.setUtil(utilidad)
+                            else:
+                                #significa que el padre jugo X, y hay que minimizar
+                                if nodoPadre.hasUtil():
+                                    utilidadPadre = nodoPadre.getUtil()
+                                    if utilidad < utilidadPadre:
+                                        nodoPadre.setUtil(utilidad)
+                                else:
+                                    nodoPadre.setUtil(utilidad)        
+                            pilaReversa.insert(0,nodoPadre)  
     nodoPresente = g.getNode(state)
     valor = nodoPresente.getUtil()
     act = actions(nodoPresente.getValue())
@@ -185,6 +185,12 @@ def minimax(state):
     
     
 
-#inicial = [[EMPTY,X,O],[O,X,EMPTY],[X,EMPTY,O]]
+#inicial = [[EMPTY,EMPTY,EMPTY],[EMPTY,X,EMPTY],[EMPTY,EMPTY,EMPTY]]
+#inicial = [[O, None, None], [None, X, None], [None, None, None]]
 #print(minimax(inicial))
-#print(Grafo().getNode(inicial).hasUtil())
+#inicio = Grafo().getNode(inicial)
+#print(inicio.getUtil())
+#for hijo in Grafo().getChildren(inicio):
+#    print(str(hijo.getValue()) + ' '+str(hijo.getUtil()))
+#for hijo in Grafo().getChildren(Grafo().getNode([['O', 'X', None], [None, 'X', None], [None, None, None]])):
+#    print(str(hijo.getValue()) + ' '+str(hijo.getUtil()))
