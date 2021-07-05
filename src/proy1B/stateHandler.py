@@ -3,7 +3,7 @@ Tic Tac Toe Player
 """
 from ADT import Edge, Grafo, Node
 from copy import deepcopy
-import math
+import random
 
 X = "X"
 O = "O"
@@ -174,19 +174,26 @@ def minimax(state):
     nodoPresente = g.getNode(state)
     valor = nodoPresente.getUtil()
     act = actions(nodoPresente.getValue())
+    listaPosiblesAcciones = list()
     for accion in act:
         resultado = result(deepcopy(nodoPresente.getValue()),accion)
         nodoResultante = g.getNode(resultado)
         if nodoResultante.getUtil() == valor:
-            return accion
+            listaPosiblesAcciones.append(accion)
+    print(state)
+    if len(listaPosiblesAcciones) > 0:
+        return listaPosiblesAcciones[random.randint(0,len(listaPosiblesAcciones)-1)]
+    else:
+       Grafo().reiniciar() 
+       return minimax(state)
     
         
     
     
     
 
-#inicial = [[EMPTY,EMPTY,EMPTY],[EMPTY,X,EMPTY],[EMPTY,EMPTY,EMPTY]]
-#inicial = [[O, None, None], [None, X, None], [None, None, None]]
+#inicial = [[None, 'O', 'O'], [None, 'X', 'X'], ['X', 'X', 'O']]
+#inicial = [[None, 'O', None], [EMPTY, EMPTY, None], [EMPTY,EMPTY, EMPTY]]
 #print(minimax(inicial))
 #inicio = Grafo().getNode(inicial)
 #print(inicio.getUtil())

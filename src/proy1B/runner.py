@@ -1,7 +1,8 @@
+from ADT import Grafo
 import pygame
 import sys
 import time
-
+from copy import deepcopy
 import stateHandler as ttt
 
 pygame.init()
@@ -62,7 +63,9 @@ while True:
                 user = ttt.X
             elif playOButton.collidepoint(mouse):
                 time.sleep(0.2)
-                user = ttt.O
+                user = deepcopy(ttt.O)
+                ttt.O = "X"
+                ttt.X = "O"
 
     else:
 
@@ -141,6 +144,7 @@ while True:
                     time.sleep(0.2)
                     user = None
                     board = ttt.initial_state()
+                    Grafo().reiniciar()
                     ai_turn = False
 
     pygame.display.flip()

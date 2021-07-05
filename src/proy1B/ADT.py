@@ -44,7 +44,7 @@ class Singleton(type):
         if cls not in cls._instances:
             cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
         return cls._instances[cls]
-
+    
 
 class Grafo(metaclass=Singleton):
     """ Esta clase implementa el comportamiento de un grafo, usando nodos (V)
@@ -82,5 +82,7 @@ class Grafo(metaclass=Singleton):
             if self.adjacencyMap[key] == []:
                 leaves.append(key)
         return leaves
+    def reiniciar(self):
+        self.adjacencyMap = dict()
             
 
