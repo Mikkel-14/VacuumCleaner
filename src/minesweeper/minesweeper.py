@@ -218,18 +218,42 @@ class MinesweeperAI():
         newSet = set()
         for celda in vecinos:
             x,y = celda
-            if (0<x<self.height-1) and (0<y<self.width-1):
+            if (-1<x<self.height) and (-1<y<self.width):
                 if (celda not in self.safes) and (celda not in self.mines):
                     newSet.add(celda)
                 else:
                     if celda in self.safes:
                         print("la celda ({},{}) es segura".format(x,y))
                     else:
+                        count -= count - 1 
                         print("la celda ({},{}) es mina".format(x,y))
         if len(newSet) != 0:
             newKnowledge = Sentence(newSet,count)
             self.knowledge.append(newKnowledge)
-            self._checkKB()
+            #self._checkKB()
+            newInferences = []
+            for s in self.knowledge:
+                if s == newKnowledge:
+                    continue
+                elif(newKnowledge.cells.issubset(s.cells)):
+                    diferencia = s.cells - newKnowledge.cells
+                    ncount = s.count -newKnowledge.count
+                    newInferences.append(Sentence(diferencia,ncount))
+                elif(s.cells.issubset(newKnowledge.cells)):
+                    diferencia = newKnowledge.cells - s.cells
+                    ncount = newKnowledge.count - s.count
+                    newInferences.append(Sentence(diferencia,ncount))
+            self.knowledge.extend(newInferences)
+            for k in self.knowledge:
+                safes = deepcopy(k.known_safes())
+                mines = deepcopy(k.known_mines())
+                if safes != set():
+                    for e in safes:
+                        self.mark_safe(e)
+                if mines != set():
+                    for e in mines:
+                        self.mark_mine(e)
+            
 
     def _checkKB(self):
         mark = 0

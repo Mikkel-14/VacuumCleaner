@@ -1,8 +1,9 @@
-from model import model2 as model
+from model import model
 
 # Calculate predictions
 predictions = model.predict_proba({
-    "dog": "true"
+    "m": "false",
+    "alarma":"true"
 })
 
 # Print predictions for each node
